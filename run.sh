@@ -46,6 +46,21 @@ docker run -d \
 		-e DEBUG=true \
 		benschw/etcdbridge
 
+echo "Start App (Service role)"
+service_id=$(docker run -d -p 8080 -p 8081 -e ETCD="http://$etcd_ip:4001" app:latest)
+service_port=$(docker port $service_id 8080 | awk -F: '{print $2}')
+service_admin_port=$(docker port $service_id 8081 | awk -F: '{print $2}')
+service_hc="curl -s -L -I http://$docker_bridge_ip:$service_admin_port/healthcheck | grep 'HTTP/1.1 200 OK'"
+
+docker run -d \
+		-e CONTAINER_ID=$service_id \
+		-e SERVICE_ID=service \
+		-e APPLICATION_ADDRESS=$docker_bridge_ip:$service_port \
+		-e HEALTH_CHECK="$service_hc" \
+		-e ETCD=$etcd_ip:4001 \
+		-e DEBUG=true \
+		benschw/etcdbridge
+
 
 echo "Start App (Client role)"
 client_id=$(docker run -d -p 8080 -p 8081 -e ETCD="http://$etcd_ip:4001" app:latest)
@@ -63,5 +78,20 @@ docker run -d \
 		-e DEBUG=true \
 		benschw/etcdbridge
 
+echo "Start App (Client role)"
+client_id=$(docker run -d -p 8080 -p 8081 -e ETCD="http://$etcd_ip:4001" app:latest)
+client_port=$(docker port $client_id 8080 | awk -F: '{print $2}')
+client_admin_port=$(docker port $client_id 8081 | awk -F: '{print $2}')
+client_hc="curl -s -L -I http://$docker_bridge_ip:$client_admin_port/healthcheck | grep 'HTTP/1.1 200 OK'"
+
+docker run -d \
+		-e HOST_NAME="client.local" \
+		-e CONTAINER_ID=$client_id \
+		-e SERVICE_ID=client \
+		-e APPLICATION_ADDRESS=$docker_bridge_ip:$client_port \
+		-e HEALTH_CHECK="$client_hc" \
+		-e ETCD=$etcd_ip:4001 \
+		-e DEBUG=true \
+		benschw/etcdbridge
 
 
