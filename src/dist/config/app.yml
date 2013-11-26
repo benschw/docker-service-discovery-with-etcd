@@ -1,0 +1,24 @@
+
+# HTTP-specific options.
+http:
+  port: 8080
+  adminPort: 8081
+
+  # HTTP request log settings
+  requestLog:
+    syslog:
+      enabled: false
+      host: localhost
+      facility: local0
+
+# Logging settings.
+logging:
+
+  # OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  syslog:
+    enabled: true
+    host: localhost
+    facility: local0
+
