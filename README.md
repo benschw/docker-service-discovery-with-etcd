@@ -8,7 +8,10 @@ This repo is a proof of concept to test out service discovery with Docker and [E
 
 See also, this same [test with Docker links](https://github.com/benschw/docker-service-discovery-with-links)
 
-n.b. this test also implements load balancing between the Java services
+ps. this test also implements load balancing between the Java services 
+pss. this test makes use of two additional components. They are both published to [Docker Index](https://index.docker.io/u/benschw/), but are also shared on github: 
+- [etcdedge](https://github.com/benschw/etcdedge) a python service to sync etcd configuration to redis for hipache to use in routing "edge" traffic
+- [etcdbridge](https://github.com/benschw/etcdbridge) a python service to monitor the health of my docker containers and publish their addresses to etcd.
 
 ## Build & Run
 
