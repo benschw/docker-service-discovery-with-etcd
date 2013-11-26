@@ -1,4 +1,4 @@
-## Service Discovery With Docker
+## Service Discovery With Docker and Etcd
 This repo is a proof of concept to test out service discovery with Docker and [Etcd](https://github.com/coreos/etcd). The setup for the test, is
 
 - Provide access to a Java app running in a Docker container with a fixed name/port
