@@ -6,6 +6,8 @@ This repo is a proof of concept to test out service discovery with Docker and [E
 - The second Java app connects to and uses an instance of Memcached
 
 
+See also, this same [test with Docker links](https://github.com/benschw/docker-service-discovery-with-links)
+
 ## Build & Run
 
 add the following to your host file
