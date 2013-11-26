@@ -16,7 +16,7 @@ pss. this test makes use of two additional components. They are both published t
 
 ## Build & Run
 
-add the following to your host file
+add the following to your host file (`/etc/hosts`)
 
 	127.0.0.1 client.local
 
