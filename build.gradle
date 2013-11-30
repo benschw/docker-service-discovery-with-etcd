@@ -2,6 +2,11 @@ apply plugin: 'groovy'
 apply plugin: 'shadow'
 apply plugin: 'idea'
  
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.9'
+}
+
 buildscript {
     repositories {
         maven {
