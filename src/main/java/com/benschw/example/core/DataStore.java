@@ -30,19 +30,15 @@ public class DataStore {
 	}
 
 	public void push(String value) {
-		ArrayList<String> l = getList();
+		List<String> l = getList();
 		l.add(value);
 
 
 		getClient().set(KEY, 3600, l);
 	}
 
-	public ArrayList<String> getList() {
-		try {
-			ArrayList<String> l =  (ArrayList<String>) getClient().get(KEY);
-			return l == null ? new ArrayList<String>() : l;
-		} catch (Exception e) {
-			return new ArrayList<String>();
-		}
+	public List<String> getList() {
+		List<String> l =  (List<String>) getClient().get(KEY);
+		return l == null ? new ArrayList<String>() : l;
 	}
 }
