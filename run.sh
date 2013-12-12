@@ -8,7 +8,7 @@ echo "Start Hipache and Redis"
 docker run -d -p 6379:6379 -p 80:80 samalba/hipache supervisord -n
 
 echo "Start Etcd"
-docker run -d -p 4001:4001 -p 7001:7001 benschw/etcd
+docker run -d -p 4001:4001 -p 7001:7001 stackbrew/etcd
 
 sleep 5 # etcd and redis don't seem to be ready immediately
 
