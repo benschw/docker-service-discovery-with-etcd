@@ -1,10 +1,7 @@
 FROM ubuntu
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get upgrade -y
-
-RUN apt-get install -y python-software-properties
+RUN sed 's/main$/main universe/' -i /etc/apt/sources.list
+RUN apt-get update && apt-get install -y software-properties-common python-software-properties
 RUN add-apt-repository ppa:webupd8team/java -y
 
 RUN apt-get update
@@ -14,7 +11,7 @@ RUN apt-get install -y oracle-java7-installer
 
 
 ADD ./src/dist/config/app.yml /opt/app.yml
-ADD ./build/libs/discovery-0.1.jar /opt/app.jar
+ADD ./build/libs/discovery-0.1-all.jar /opt/app.jar
 
 EXPOSE 8080 8081
 
