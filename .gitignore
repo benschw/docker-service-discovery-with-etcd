@@ -16,6 +16,9 @@ out/
 .gradle
 bin
 
+# gedit backup files
+*~
+
 #Eclipse dot files generated through gradle
 .classpath
 .project

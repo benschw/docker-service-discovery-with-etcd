@@ -1,16 +1,12 @@
-apply plugin: 'shadow'
+apply plugin: 'groovy'
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'idea'
- 
+
 buildscript {
-    repositories {
-        maven {
-            name 'Shadow'
-            url 'http://dl.bintray.com/content/johnrengelman/gradle-plugins'
-        }
-    }
-    dependencies {
-        classpath 'org.gradle.plugins:shadow:0.7.4'
-    }
+  repositories { jcenter() }
+  dependencies {
+    classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.1'
+  }
 }
  
 repositories {
@@ -39,12 +35,10 @@ jar {
     }
 }
 
-import org.gradle.api.plugins.shadow.transformers.ServiceFileTransformer
-
-shadow {
-    exclude 'META-INF/*.SF'
-    exclude 'META-INF/*.DSA'
-    exclude 'META-INF/*.RSA'
-    artifactAttached false
-    transformer(ServiceFileTransformer)
+shadowJar {
+    mergeServiceFiles {
+      exclude 'META-INF/*.SF'
+      exclude 'META-INF/*.DSA'
+      exclude 'META-INF/*.RSA'
+    }
 }

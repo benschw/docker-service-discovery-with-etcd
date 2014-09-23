@@ -5,7 +5,7 @@ etcd_ip=$(/sbin/ifconfig docker0 | sed -n '2 p' | awk '{print $2}' | cut -d":" -
 
 
 echo "Start Hipache and Redis"
-docker run -d -p 6379:6379 -p 80:80 samalba/hipache supervisord -n
+docker run -d -p 6379:6379 -p 80:80 hipache supervisord -n
 
 echo "Start Etcd"
 docker run -d -p 4001:4001 -p 7001:7001 benschw/etcd
@@ -32,7 +32,7 @@ docker run -d \
 
 
 echo "Start App (Service role)"
-service_id=$(docker run -d -p 8080 -p 8081 -e ETCD="http://$etcd_ip:4001" app:latest)
+service_id=$(docker run -d -p 8080 -p 8081 -e ETCD="http://$etcd_ip:4001" benschw/service-discovery-etcd-example:latest)
 service_port=$(docker port $service_id 8080 | awk -F: '{print $2}')
 service_admin_port=$(docker port $service_id 8081 | awk -F: '{print $2}')
 service_hc="curl -s -L -I http://$docker_bridge_ip:$service_admin_port/healthcheck | grep 'HTTP/1.1 200 OK'"
@@ -47,7 +47,7 @@ docker run -d \
 		benschw/etcdbridge
 
 echo "Start App (Service role)"
-service_id=$(docker run -d -p 8080 -p 8081 -e ETCD="http://$etcd_ip:4001" app:latest)
+service_id=$(docker run -d -p 8080 -p 8081 -e ETCD="http://$etcd_ip:4001" benschw/service-discovery-etcd-example:latest)
 service_port=$(docker port $service_id 8080 | awk -F: '{print $2}')
 service_admin_port=$(docker port $service_id 8081 | awk -F: '{print $2}')
 service_hc="curl -s -L -I http://$docker_bridge_ip:$service_admin_port/healthcheck | grep 'HTTP/1.1 200 OK'"
@@ -63,7 +63,7 @@ docker run -d \
 
 
 echo "Start App (Client role)"
-client_id=$(docker run -d -p 8080 -p 8081 -e ETCD="http://$etcd_ip:4001" app:latest)
+client_id=$(docker run -d -p 8080 -p 8081 -e ETCD="http://$etcd_ip:4001" benschw/service-discovery-etcd-example:latest)
 client_port=$(docker port $client_id 8080 | awk -F: '{print $2}')
 client_admin_port=$(docker port $client_id 8081 | awk -F: '{print $2}')
 client_hc="curl -s -L -I http://$docker_bridge_ip:$client_admin_port/healthcheck | grep 'HTTP/1.1 200 OK'"
@@ -79,7 +79,7 @@ docker run -d \
 		benschw/etcdbridge
 
 echo "Start App (Client role)"
-client_id=$(docker run -d -p 8080 -p 8081 -e ETCD="http://$etcd_ip:4001" app:latest)
+client_id=$(docker run -d -p 8080 -p 8081 -e ETCD="http://$etcd_ip:4001" benschw/service-discovery-etcd-example:latest)
 client_port=$(docker port $client_id 8080 | awk -F: '{print $2}')
 client_admin_port=$(docker port $client_id 8081 | awk -F: '{print $2}')
 client_hc="curl -s -L -I http://$docker_bridge_ip:$client_admin_port/healthcheck | grep 'HTTP/1.1 200 OK'"
